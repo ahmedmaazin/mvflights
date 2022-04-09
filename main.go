@@ -10,8 +10,14 @@ import (
 )
 
 const arrivalsUrl string = "http://fis.com.mv/xml/arrive.xml"
+const departuresUrl string = "http://fis.com.mv/xml/depart.xml"
 
 type Arrivals []struct {
+	UpdateTime string    `json:"update_time" xml:"UpdateTime"`
+	Flights    []Flights `json:"flights" xml:"Flight"`
+}
+
+type Departures []struct {
 	UpdateTime string    `json:"update_time" xml:"UpdateTime"`
 	Flights    []Flights `json:"flights" xml:"Flight"`
 }
@@ -37,7 +43,7 @@ type Flights struct {
 	CarrierType   string `json:"carrier_type" xml:"CarrierType"`
 }
 
-func GetArrivals() string {
+func GetArrivals() ([]byte, error) {
 	resp, err := http.Get(arrivalsUrl)
 	if err != nil {
 		panic(err)
@@ -61,14 +67,55 @@ func GetArrivals() string {
 		panic(err)
 	}
 
-	jsonData, err := json.Marshal(data)
+	return json.Marshal(data)
+}
+
+func GetDepartures() ([]byte, error) {
+	/**
+	You are going to see quite bit of redundant code below from GetArrivals func. TODO: Cleanup
+	*/
+
+	resp, err := http.Get(departuresUrl)
 	if err != nil {
 		panic(err)
 	}
 
-	return string(jsonData)
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(resp.Body)
+
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		panic(err)
+	}
+
+	data := &Departures{}
+	err = xml.Unmarshal(body, data)
+	if err != nil {
+		panic(err)
+	}
+
+	return json.Marshal(data)
 }
 
 func main() {
-	fmt.Printf(GetArrivals())
+	arrivals, err := GetArrivals()
+	if err != nil {
+		panic(err)
+	}
+
+	departures, err := GetDepartures()
+	if err != nil {
+		panic(err)
+	}
+
+	// Just for the sake of printing...
+	fmt.Printf("ARRIVALS\n")
+	fmt.Printf(string(arrivals))
+	fmt.Printf("\n\n\n")
+	fmt.Printf("DEPARTURES\n")
+	fmt.Printf(string(departures) + "\n")
 }

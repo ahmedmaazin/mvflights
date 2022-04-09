@@ -65,7 +65,9 @@ to
 
 `go get ./...`
 
-### Run
+### Clean & Run
+
+`go mod tidy`
 
 `go run main.go`
 
