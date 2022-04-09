@@ -55,6 +55,9 @@ func ProcessArrivals() string {
 
 	data := &Arrivals{}
 	err = xml.Unmarshal(body, data)
+	if err != nil {
+		panic(err)
+	}
 
 	jsonData, err := json.Marshal(data)
 	if err != nil {
