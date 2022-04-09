@@ -34,27 +34,27 @@ to
 ```json
 [
     {
-        "UpdateTime": "xxx",
-        "Flight": [
+        "update_time": "20220409 05:32",
+        "flights": [
             {
-                "AirLineID": "GF",
-                "AirLineName": "GULF AIR",
-                "FlightID": "GF144",
-                "Route1": "BAHRAIN",
-                "Route2": " ",
-                "Route3": " ",
-                "Route4": " ",
-                "Route5": " ",
-                "Route6": " ",
-                "Scheduled": "06:05",
-                "Estimated": "05:51",
-                "Status": " ",
-                "Gate": " ",
-                "Terminal": " ",
-                "CheckinArea": " ",
-                "Date": "20220409",
-                "PrimaryFlight": " ",
-                "CarrierType": "I"
+                "update_time": "GF",
+                "airline_name": "GULF AIR",
+                "flight_id": "GF144",
+                "route_1": "BAHRAIN",
+                "route_2": " ",
+                "route_3": " ",
+                "route_4": " ",
+                "route_5": " ",
+                "route_6": " ",
+                "scheduled": "06:05",
+                "estimated": "05:55",
+                "status": " ",
+                "gate": " ",
+                "terminal": " ",
+                "checkin_area": " ",
+                "date": "20220409",
+                "primary_flight": " ",
+                "carrier_type": "I"
             }
         ]
     }

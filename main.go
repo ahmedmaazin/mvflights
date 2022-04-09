@@ -9,34 +9,36 @@ import (
 	"net/http"
 )
 
+const arrivalsUrl string = "http://fis.com.mv/xml/arrive.xml"
+
 type Arrivals []struct {
-	UpdateTime string   `xml:"UpdateTime"`
-	Flight     []Flight `xml:"Flight"`
+	UpdateTime string    `json:"update_time" xml:"UpdateTime"`
+	Flights    []Flights `json:"flights" xml:"Flight"`
 }
 
-type Flight struct {
-	AirLineID     string `xml:"AirLineID"`
-	AirLineName   string `xml:"AirLineName"`
-	FlightID      string `xml:"FlightID"`
-	Route1        string `xml:"Route1"`
-	Route2        string `xml:"Route2"`
-	Route3        string `xml:"Route3"`
-	Route4        string `xml:"Route4"`
-	Route5        string `xml:"Route5"`
-	Route6        string `xml:"Route6"`
-	Scheduled     string `xml:"Scheduled"`
-	Estimated     string `xml:"Estimated"`
-	Status        string `xml:"Status"`
-	Gate          string `xml:"Gate"`
-	Terminal      string `xml:"Terminal"`
-	CheckinArea   string `xml:"CheckinArea"`
-	Date          string `xml:"Date"`
-	PrimaryFlight string `xml:"PrimaryFlight"`
-	CarrierType   string `xml:"CarrierType"`
+type Flights struct {
+	AirLineID     string `json:"update_time" xml:"AirLineID"`
+	AirLineName   string `json:"airline_name" xml:"AirLineName"`
+	FlightID      string `json:"flight_id" xml:"FlightID"`
+	Route1        string `json:"route_1" xml:"Route1"`
+	Route2        string `json:"route_2" xml:"Route2"`
+	Route3        string `json:"route_3" xml:"Route3"`
+	Route4        string `json:"route_4" xml:"Route4"`
+	Route5        string `json:"route_5" xml:"Route5"`
+	Route6        string `json:"route_6" xml:"Route6"`
+	Scheduled     string `json:"scheduled" xml:"Scheduled"`
+	Estimated     string `json:"estimated" xml:"Estimated"`
+	Status        string `json:"status" xml:"Status"`
+	Gate          string `json:"gate" xml:"Gate"`
+	Terminal      string `json:"terminal" xml:"Terminal"`
+	CheckinArea   string `json:"checkin_area" xml:"CheckinArea"`
+	Date          string `json:"date" xml:"Date"`
+	PrimaryFlight string `json:"primary_flight" xml:"PrimaryFlight"`
+	CarrierType   string `json:"carrier_type" xml:"CarrierType"`
 }
 
-func ProcessArrivals() string {
-	resp, err := http.Get("http://fis.com.mv/xml/arrive.xml")
+func GetArrivals() string {
+	resp, err := http.Get(arrivalsUrl)
 	if err != nil {
 		panic(err)
 	}
@@ -68,5 +70,5 @@ func ProcessArrivals() string {
 }
 
 func main() {
-	fmt.Printf(ProcessArrivals())
+	fmt.Printf(GetArrivals())
 }
