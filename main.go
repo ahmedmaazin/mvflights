@@ -9,20 +9,17 @@ import (
 	"net/http"
 )
 
-const arrivalsUrl string = "http://fis.com.mv/xml/arrive.xml"
-const departuresUrl string = "http://fis.com.mv/xml/depart.xml"
+const (
+	arrivalsUrl   string = "http://fis.com.mv/xml/arrive.xml"
+	departuresUrl string = "http://fis.com.mv/xml/depart.xml"
+)
 
-type Arrivals []struct {
-	UpdateTime string    `json:"update_time" xml:"UpdateTime"`
-	Flights    []Flights `json:"flights" xml:"Flight"`
+type Flights []struct {
+	UpdateTime string   `json:"update_time" xml:"UpdateTime"`
+	Flight     []Flight `json:"flights" xml:"Flight"`
 }
 
-type Departures []struct {
-	UpdateTime string    `json:"update_time" xml:"UpdateTime"`
-	Flights    []Flights `json:"flights" xml:"Flight"`
-}
-
-type Flights struct {
+type Flight struct {
 	AirLineID     string `json:"update_time" xml:"AirLineID"`
 	AirLineName   string `json:"airline_name" xml:"AirLineName"`
 	FlightID      string `json:"flight_id" xml:"FlightID"`
@@ -61,7 +58,7 @@ func GetArrivals() ([]byte, error) {
 		panic(err)
 	}
 
-	data := &Arrivals{}
+	data := &Flights{}
 	err = xml.Unmarshal(body, data)
 	if err != nil {
 		panic(err)
@@ -71,10 +68,6 @@ func GetArrivals() ([]byte, error) {
 }
 
 func GetDepartures() ([]byte, error) {
-	/**
-	You are going to see quite bit of redundant code below from GetArrivals func. TODO: Cleanup
-	*/
-
 	resp, err := http.Get(departuresUrl)
 	if err != nil {
 		panic(err)
@@ -92,7 +85,7 @@ func GetDepartures() ([]byte, error) {
 		panic(err)
 	}
 
-	data := &Departures{}
+	data := &Flights{}
 	err = xml.Unmarshal(body, data)
 	if err != nil {
 		panic(err)
